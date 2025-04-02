@@ -14,3 +14,10 @@ use App\Controllers\Web\HomeController;
 
 
 $router->get('/', [HomeController::class, 'index'], name: 'home');
+
+// include blog routes
+require base_path('routes/blog.php');
+
+// include admin routes
+require base_path('routes/admin.php');
+
