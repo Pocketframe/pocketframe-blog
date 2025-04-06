@@ -8,6 +8,7 @@ use Pocketframe\Http\Request\Request;
 use Pocketframe\Http\Response\Response;
 use Pocketframe\Masks\Validator;
 use Pocketframe\PocketORM\Database\QueryEngine;
+use Pocketframe\Validation\Rules\Unique;
 
 class CategoriesController
 {
@@ -47,7 +48,7 @@ class CategoriesController
   public function store(Request $request)
   {
     Validator::validate($request->all(), [
-      'category_name' => ['required', 'string', 'max:255'],
+      'category_name' => ['required', 'string', 'max:255', new Unique('categories', 'category_name')],
       'tags'          => ['required', 'array'],
       'status'        => ['required', 'string', 'in:active,inactive'],
       'description'   => ['required', 'string', 'max:255'],
@@ -55,6 +56,7 @@ class CategoriesController
       ->message([
         'category_name.required' => 'Category name is required',
         'category_name.string'   => 'Category name must be a string',
+        'category_name.unique'   => 'Category name already exists',
         'category_name.max'      => 'Category name must be less than 255 characters',
         'tags.required'          => 'At least one tag is required',
         'status.required'        => 'Status is required',
@@ -64,10 +66,10 @@ class CategoriesController
 
     $category = new Category([
       'category_name' => $request->post('category_name'),
-      'tags'          => $request->post('tags'),
       'status'        => $request->post('status'),
       'description'   => $request->post('description'),
     ]);
+    // $category->tags->attach($request->post('tags'));
     $category->save();
 
     return Response::redirect(route('admin.categories.index'));
@@ -84,9 +86,8 @@ class CategoriesController
   {
     $category = (new QueryEngine(Category::class))
       ->include('tags')
-      ->where('id', '=', $id)
-      ->first();
-    dd($category);
+      ->findOrFail($id);
+
     return Response::view('admin.categories.show', compact('category'));
   }
 
@@ -102,7 +103,12 @@ class CategoriesController
     $category = (new QueryEngine(Category::class))
       ->include('tags')
       ->find($id);
-    return Response::view('admin.categories.edit', compact('category'));
+
+
+    return Response::view('admin.categories.edit', [
+      'category' => $category,
+      'tags'     => (new QueryEngine(Tag::class))->get()
+    ]);
   }
 
   /**
@@ -114,9 +120,14 @@ class CategoriesController
    */
   public function update(Request $request, $id)
   {
-    $category = (new QueryEngine(Category::class))
-      ->find($id);
-    $category->update($request->all());
+    $category = new Category([
+      'id'            => $id,
+      'category_name' => $request->post('category_name'),
+      'status'        => $request->post('status'),
+      'description'   => $request->post('description'),
+    ]);
+    $category->save();
+
     return Response::redirect(route('admin.categories.index'));
   }
 
@@ -132,6 +143,7 @@ class CategoriesController
     $category = (new QueryEngine(Category::class))
       ->find($id);
     $category->delete();
+
     return Response::redirect(route('admin.categories.index'));
   }
 }
