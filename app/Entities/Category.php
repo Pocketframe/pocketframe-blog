@@ -2,17 +2,17 @@
 
 namespace App\Entities;
 
+use Pocketframe\PocketORM\Concerns\Trashable;
 use Pocketframe\PocketORM\Entity\Entity;
 
 class Category extends Entity
 {
-  /**
-   * Define the table name.
-   */
-  protected static string $table = 'categories';
+  use Trashable;
 
   /**
    * Define the fillable attributes.
+   *
+   * @var array<string>
    */
   protected array $fillable = [
     'id',
@@ -21,7 +21,7 @@ class Category extends Entity
     'status',
     'description',
     'created_at',
-    'updated_at',
+    'updated_at'
   ];
 
   /**
@@ -29,6 +29,5 @@ class Category extends Entity
    */
   protected array $relationship = [
     'tags' => [Entity::HAS_MULTIPLE, Tag::class, 'category_id']
-
   ];
 }
