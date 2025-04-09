@@ -28,6 +28,6 @@ class Category extends Entity
    * Define the relationships.
    */
   protected array $relationship = [
-    'tags' => [Entity::HAS_MULTIPLE, Tag::class, 'category_id']
+    'tags' => [Entity::BRIDGE, Tag::class, 'category_tags', 'category_id', 'tag_id']
   ];
 }
