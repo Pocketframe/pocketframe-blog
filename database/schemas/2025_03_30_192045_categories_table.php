@@ -16,6 +16,7 @@ class Categories extends TableScript
       $table->string('status')->default('active');
       $table->string('description')->nullable();
       $table->timestamps();
+      $table->trashable();
     });
   }
 
