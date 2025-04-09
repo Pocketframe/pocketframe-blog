@@ -4,6 +4,7 @@ namespace App\Controllers\Web\Admin\Categories;
 
 use App\Entities\Category;
 use App\Entities\Tag;
+use Pocketframe\Essentials\Utilities\StringUtils;
 use Pocketframe\Http\Request\Request;
 use Pocketframe\Http\Response\Response;
 use Pocketframe\Masks\Validator;
@@ -19,7 +20,19 @@ class CategoriesController
    */
   public function index()
   {
-    $categories = (new QueryEngine(Category::class))
+    // old API
+    // $categories = (new QueryEngine(Category::class))
+    //   ->include('tags')
+    //   ->get();
+
+
+    // new API
+    // $categories = QueryEngine::for(Category::class)
+    //   ->include('tags')
+    //   ->get();
+
+    // functional API
+    $categories = fromEntity(Category::class)
       ->include('tags')
       ->get();
 
@@ -66,13 +79,15 @@ class CategoriesController
 
     $category = new Category([
       'category_name' => $request->post('category_name'),
+      'slug'          => StringUtils::slugify($request->post('category_name')),
       'status'        => $request->post('status'),
       'description'   => $request->post('description'),
     ]);
-    // $category->tags->attach($request->post('tags'));
     $category->save();
 
-    return Response::redirect(route('admin.categories.index'));
+    $category->tags()->attach($request->post('tags'));
+
+    return Response::redirect(route('admin.categories.index'))->with('success', 'Category created successfully');
   }
 
   /**
@@ -127,6 +142,7 @@ class CategoriesController
       'description'   => $request->post('description'),
     ]);
     $category->save();
+    $category->tags()->sync($request->post('tags'));
 
     return Response::redirect(route('admin.categories.index'));
   }
