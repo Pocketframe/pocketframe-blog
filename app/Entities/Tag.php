@@ -15,8 +15,6 @@ class Tag extends Entity
    * Define the fillable attributes.
    */
   protected array $fillable = [
-    'id',
-    'category_id',
     'tag_name',
     'slug',
     'status',
@@ -29,6 +27,6 @@ class Tag extends Entity
    * Define the relationships.
    */
   protected array $relationship = [
-    'category' => [Entity::OWNED_BY, Category::class, 'category_id']
+    'categories' => [Entity::BRIDGE, Category::class, 'category_tags', 'tag_id', 'category_id']
   ];
 }
