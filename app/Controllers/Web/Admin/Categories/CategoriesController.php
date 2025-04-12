@@ -46,7 +46,7 @@ class CategoriesController
    */
   public function create()
   {
-    $tags = (new QueryEngine(Tag::class))
+    $tags = fromEntity(Tag::class)
       ->select(['id', 'tag_name'])
       ->get();
     return Response::view('admin.categories.create', compact('tags'));
