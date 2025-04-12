@@ -9,6 +9,10 @@ Categories
   <div class="mb-4 flex justify-between">
     <h2 class="text-xl font-bold">Post Categories</h2>
     <div>
+      <!-- <a href="javascript:window.print()" class="text-white bg-gray-500 px-4 py-2 rounded hover:bg-gray-600 mr-2">Print</a> -->
+      <a href="#" class="text-white bg-gray-500 px-4 py-2 rounded hover:bg-gray-600 mr-2">Export</a>
+      <a href="#" class="text-white bg-green-500 px-4 py-2 rounded hover:bg-green-600 mr-2">Import</a>
+
       <a href="{{ route('admin.categories.create') }}" class="text-white bg-blue-500 px-4 py-2 rounded hover:bg-blue-600">Add New Category</a>
     </div>
   </div>
