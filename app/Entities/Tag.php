@@ -2,10 +2,13 @@
 
 namespace App\Entities;
 
+use Pocketframe\PocketORM\Concerns\Trashable;
 use Pocketframe\PocketORM\Entity\Entity;
 
 class Tag extends Entity
 {
+  use Trashable;
+
   /**
    * Define the table name.
    */
