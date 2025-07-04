@@ -10,11 +10,26 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "pocketframe/framework": "dev-main"
+        "pocketframe/framework": "dev-main",
+        "predis/predis": "^2.3",
+    "pocketframe/excel": "^1.0"
     },
     "require-dev": {
-        "fakerphp/faker": "^2.0.x-dev"
+        "fakerphp/faker": "^2.0.x-dev",
+    "pestphp/pest": "^3.8",
+    "phpunit/phpunit": "^11.5",
+    "phpunit/php-code-coverage": "^11.0",
+    "mockery/mockery": "^1.6"
     },
+    "repositories": [
+      {
+        "type": "path",
+        "url": "../pocketframe/packages/Excel",
+        "options": {
+          "symlink": true
+        }
+      }
+    ],
     "autoload": {
         "files": [
             "config/database.php",
@@ -47,5 +62,10 @@
         }
     ],
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  }
 }

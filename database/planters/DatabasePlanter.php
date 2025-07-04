@@ -22,7 +22,7 @@ class DatabasePlanter extends DataPlanter
      *    CommentPlanter::class => 2,  // Runs 2 times
      * ]);
      *
-     * Or use the PlanterRegistry. This will discover and register all planters in the database/planters directory
+     * Or use the PlanterRegistry. This will discover and register all planters in the database/planters directory. This means you don't have to register them manually and all data planters in the directory will be planted into your database.
      *
      * PlanterRegistry::discoverAndRegister();
      * PlanterRegistry::plantAll();

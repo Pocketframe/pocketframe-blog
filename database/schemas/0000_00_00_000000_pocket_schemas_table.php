@@ -12,8 +12,8 @@ class PocketSchemas extends TableScript
     $this->createTable('pocket_schemas', function (TableBuilder $table) {
       $table->id();
       $table->string('schema_name')->unique();
-      $table->datetime('applied_at');
       $table->integer('batch')->index();
+      $table->datetime('applied_at');
     });
   }
 
