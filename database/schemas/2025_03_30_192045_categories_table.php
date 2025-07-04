@@ -13,7 +13,7 @@ class Categories extends TableScript
       $table->id();
       $table->string('category_name')->unique();
       $table->string('slug')->unique();
-      $table->string('status')->default('active');
+      $table->string('status')->default('active')->nullable();
       $table->string('description')->nullable();
       $table->timestamps();
       $table->trashable();
