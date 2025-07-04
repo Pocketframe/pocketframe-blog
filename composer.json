@@ -11,7 +11,8 @@
     "require": {
         "php": "^8.2",
         "pocketframe/framework": "dev-main",
-        "predis/predis": "^2.3"
+        "predis/predis": "^2.3",
+    "pocketframe/excel": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^2.0.x-dev",
