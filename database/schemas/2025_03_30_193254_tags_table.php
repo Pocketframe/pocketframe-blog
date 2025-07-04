@@ -17,7 +17,6 @@ class Tags extends TableScript
       $table->string('description')->nullable();
       $table->timestamps();
       $table->trashable();
-      // $table->trashable(name: 'delete_status', type: 'enum', options: ['active', 'inactive']);
     });
   }
 
