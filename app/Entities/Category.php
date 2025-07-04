@@ -6,6 +6,7 @@ use Pocketframe\PocketORM\Concerns\TenantAware;
 use Pocketframe\PocketORM\Concerns\Trashable;
 use Pocketframe\PocketORM\Entity\Entity;
 use Pocketframe\PocketORM\QueryEngine\QueryEngine;
+use Pocketframe\PocketORM\Relationships\HasMultiple;
 
 class Category extends Entity
 {
@@ -37,8 +38,17 @@ class Category extends Entity
    */
   protected array $relationship = [
     'tags' => [Entity::BRIDGE, Tag::class, 'category_tags', 'category_id', 'tag_id'],
-    'posts' => [Entity::HAS_MULTIPLE, Post::class, 'category_id'],
+    'posts' => [Entity::HAS_MULTIPLE, Post::class, 'id'],
   ];
+
+  // public function posts()
+  // {
+  // Option 1: Return a relationship handler (like HasMultiple)
+  // return new HasMultiple($this, Post::class, 'id');
+
+  // Option 2: Return a QueryEngine for more flexibility
+  // return QueryEngine::for(Post::class)->where('category_id', '=', $this->id);
+  // }
 
   public static function scopeActive(QueryEngine $query): QueryEngine
   {
