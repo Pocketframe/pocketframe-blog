@@ -25,9 +25,13 @@ class CategoriesController
    */
   public function index()
   {
+    // QueryEngine::enableQueryLog();
     $categories = QueryEngine::for(Category::class)
       ->include(['tags:id,tag_name, status', 'posts'])
       ->get();
+    // $log = QueryEngine::getQueryLog();
+
+    // dd($log, $categories);
 
     return Response::view('admin.categories.index', compact('categories'));
   }
@@ -54,6 +58,7 @@ class CategoriesController
   public function store(Request $request): Response
   {
 
+    // dd($request->all());
     Validator::validate($request->all(), [
       'category_name' => ['required', 'string', 'max:255', new Unique('categories', 'category_name')],
       'tags'          => ['required', 'array'],
@@ -171,14 +176,14 @@ class CategoriesController
 
   public function export(Request $request)
   {
-    // return Excel::export(CategoryExporter::class)->download('categories.xlsx');
+    return Excel::export(CategoryExporter::class)->download('categories.xlsx');
   }
 
   public function import(Request $request)
   {
-    $path = $request->file('file')->store('uploads');
+    $path = $request->file('file');
 
-    // Excel::import(CategoryImporter::class, $path);
+    Excel::import(CategoryImporter::class, $path);
     return Response::redirect(route('admin.categories.index'));
   }
 }
