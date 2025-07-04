@@ -24,6 +24,13 @@ return [
     ],
 
     /**
+     * Public Storage Link
+     *
+     * This disk is used to store files that are publicly accessible.
+     */
+    'public_link' => 'public/store',
+
+    /**
      * Public Storage Disk
      *
      * This disk is used to store files that are publicly accessible.
